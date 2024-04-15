@@ -1,9 +1,11 @@
 package config;
 
+import io.restassured.matcher.RestAssuredMatchers;
 import objects.VideoGame;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 
 public class VideoGameTest extends VideoGameConfig{
     String gameBodyJson =
@@ -19,9 +21,9 @@ public class VideoGameTest extends VideoGameConfig{
     @Test
     public void getAllGames(){
         given()
-                .when()
+        .when()
                 .get(VideoGameEndpoints.ALL_VIDEO_GAMES)
-                .then();
+        .then();
     }
 
     @Test
@@ -29,9 +31,9 @@ public class VideoGameTest extends VideoGameConfig{
 
         given()
                 .body(gameBodyJson)
-                .when()
+        .when()
                 .post(VideoGameEndpoints.ALL_VIDEO_GAMES)
-                .then();
+        .then();
     }
 
     @Test
@@ -51,9 +53,9 @@ public class VideoGameTest extends VideoGameConfig{
                 .body(gameBodyXml)
                 .contentType("application/xml")
                 .accept("application/xml")
-                .when()
+        .when()
                 .post(VideoGameEndpoints.ALL_VIDEO_GAMES)
-                .then();
+        .then();
     }
 
     @Test
@@ -61,18 +63,18 @@ public class VideoGameTest extends VideoGameConfig{
 
         given()
                 .body(gameBodyJson)
-                .when()
+        .when()
                 .put("videogame/3")
-                .then();
+        .then();
     }
     @Test
     public void deleteGame(){
 
         given()
                 .accept("text/plain")
-                .when()
+        .when()
                 .delete("videogame/3")
-                .then();
+        .then();
     }
 
     @Test
@@ -80,9 +82,9 @@ public class VideoGameTest extends VideoGameConfig{
 
         given()
                 .pathParam("videoGameId", 5)
-                .when()
+        .when()
                 .get(VideoGameEndpoints.SINGLE_VIDEO_GAME)
-                .then();
+        .then();
     }
 
     @Test
@@ -91,9 +93,21 @@ public class VideoGameTest extends VideoGameConfig{
 
         given()
                 .body(videoGame)
-                    .when()
+        .when()
                 .post(VideoGameEndpoints.ALL_VIDEO_GAMES)
-                .then();
+        .then();
+    }
+
+    @Test
+    public void testVideoGameSchemaXML(){
+        given()
+                .pathParam("videoGameId", 5)
+                .accept("application/xml")
+        .when()
+                .get(VideoGameEndpoints.SINGLE_VIDEO_GAME)
+        .then()
+                .body(RestAssuredMatchers.matchesXsdInClasspath("VideoGameXSD.xsd"));
+
     }
 
 }
