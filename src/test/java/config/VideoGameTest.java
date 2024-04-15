@@ -1,5 +1,6 @@
 package config;
 
+import objects.VideoGame;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
@@ -81,6 +82,17 @@ public class VideoGameTest extends VideoGameConfig{
                 .pathParam("videoGameId", 5)
                 .when()
                 .get(VideoGameEndpoints.SINGLE_VIDEO_GAME)
+                .then();
+    }
+
+    @Test
+    public void testVideoGameSerializationByJSON(){
+        VideoGame videoGame = new VideoGame("Shooter","MyAwesomeGame","Mature","2024-12-05",98);
+
+        given()
+                .body(videoGame)
+                    .when()
+                .post(VideoGameEndpoints.ALL_VIDEO_GAMES)
                 .then();
     }
 
