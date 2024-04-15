@@ -1,6 +1,7 @@
 package config;
 
 import io.restassured.matcher.RestAssuredMatchers;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import objects.VideoGame;
 import org.junit.Test;
 
@@ -99,15 +100,25 @@ public class VideoGameTest extends VideoGameConfig{
     }
 
     @Test
-    public void testVideoGameSchemaXML(){
+    public void testVideoameSchemaXML(){
         given()
-                .pathParam("videoGameId", 5)
+                .pathParam("videoGameId", 3)
                 .accept("application/xml")
         .when()
                 .get(VideoGameEndpoints.SINGLE_VIDEO_GAME)
         .then()
                 .body(RestAssuredMatchers.matchesXsdInClasspath("VideoGameXSD.xsd"));
+    }
 
+    @Test
+    public void testVideoGameSchemaJSON(){
+        given()
+                .pathParam("videoGameId",5)
+                .accept("application/json")
+        .when()
+                .get(VideoGameEndpoints.SINGLE_VIDEO_GAME)
+        .then()
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("VideoGameJsonSchema.json"));
     }
 
 }
