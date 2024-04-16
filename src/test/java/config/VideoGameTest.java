@@ -6,8 +6,10 @@ import io.restassured.response.Response;
 import objects.VideoGame;
 import org.junit.Test;
 
+import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
+import static org.hamcrest.Matchers.lessThan;
 
 public class VideoGameTest extends VideoGameConfig{
     String gameBodyJson =
@@ -132,6 +134,18 @@ public class VideoGameTest extends VideoGameConfig{
 
         VideoGame videoGame = response.getBody().as(VideoGame.class);
         System.out.println(videoGame.toString());
+    }
+
+    @Test
+    public void captureResponseTime(){
+        long responseTime = get(VideoGameEndpoints.ALL_VIDEO_GAMES).time();
+        System.out.println("Response time in ms: " + responseTime);
+    }
+
+    @Test
+    public void assertOnResponseTime(){
+        get(VideoGameEndpoints.ALL_VIDEO_GAMES)
+        .then().time(lessThan(1000L));
     }
 
 }
