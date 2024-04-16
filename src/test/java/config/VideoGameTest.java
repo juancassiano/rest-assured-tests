@@ -2,6 +2,7 @@ package config;
 
 import io.restassured.matcher.RestAssuredMatchers;
 import io.restassured.module.jsv.JsonSchemaValidator;
+import io.restassured.response.Response;
 import objects.VideoGame;
 import org.junit.Test;
 
@@ -119,6 +120,18 @@ public class VideoGameTest extends VideoGameConfig{
                 .get(VideoGameEndpoints.SINGLE_VIDEO_GAME)
         .then()
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("VideoGameJsonSchema.json"));
+    }
+
+    @Test
+    public void convertJsonToPojo(){
+        Response response =
+                given()
+                        .pathParam("videoGameId",5)
+                 .when()
+                        .get(VideoGameEndpoints.SINGLE_VIDEO_GAME);
+
+        VideoGame videoGame = response.getBody().as(VideoGame.class);
+        System.out.println(videoGame.toString());
     }
 
 }
