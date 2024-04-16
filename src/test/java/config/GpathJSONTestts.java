@@ -33,5 +33,22 @@ public class GpathJSONTestts extends FootballConfig {
 
     System.out.println(playerNames);
   }
+
+  @Test
+  public void extractSingleValueWithHighestNumber(){
+    Response response = get("teams/57");
+    String playerName = response.path("squad.max {it.id}.name");
+    // String playerName = response.path("squad.min {it.id}.name");
+
+    System.out.println(playerName);
+  }
+
+  @Test
+  public void extractMultipleValuesAndSumThem(){
+    Response response = get("teams/57");
+    int sumOfIds = response.path("squad.collect {it.id}.sum()");
+
+    System.out.println(sumOfIds);
+  }
   
 }
