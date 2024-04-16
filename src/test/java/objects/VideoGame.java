@@ -7,6 +7,11 @@ public class VideoGame {
     private String rating;
     private String releaseDate;
     private Integer reviewScore;
+    private Integer id;
+
+    public VideoGame(){
+        
+    }
 
     public VideoGame(String category, String name, String rating, String releaseDate, Integer reviewScore) {
         this.category = category;
@@ -54,5 +59,13 @@ public class VideoGame {
 
     public void setReviewScore(Integer reviewScore) {
         this.reviewScore = reviewScore;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
