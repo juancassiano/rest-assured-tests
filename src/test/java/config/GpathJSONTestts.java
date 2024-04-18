@@ -51,4 +51,25 @@ public class GpathJSONTestts extends FootballConfig {
     System.out.println(sumOfIds);
   }
   
+  @Test
+  public void extractMapWithFindAndFindAllWithParameters(){
+    String position = "Offence";
+    String nationality = "England";
+
+    Response response = get("teams/57");
+
+    Map<String, ?> playerOfCertainPosition = response.path("squad.findAll {it.potision == '%s'}.find {it.nationality == '%s'}", position, nationality);
+    System.out.println(playerOfCertainPosition);
+  }
+
+  @Test
+  public void extractMultiplePlayers(){
+    String position = "Offence";
+    String nationality = "England";
+
+    Response response = get("teams/57");
+
+    List<Map<String, ?>> AllPlayersOfCertainPosition = response.path("squad.findAll {it.potision == '%s'}.findAll {it.nationality == '%s'}", position, nationality);
+    System.out.println(AllPlayersOfCertainPosition);
+  }
 }
